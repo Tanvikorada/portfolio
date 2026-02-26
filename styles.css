@@ -1,11 +1,11 @@
 ﻿:root {
-  --bg: #140b07;
-  --bg-soft: #1d120b;
-  --text: #ffe4cf;
-  --muted: #f2b88e;
-  --line: #4a2a17;
-  --stroke: #b86634;
-  --ink: #fff4ea;
+  --bg: #0b1017;
+  --bg-soft: #121a25;
+  --text: #e6edf6;
+  --muted: #98a9bc;
+  --line: #243548;
+  --stroke: #6d7f96;
+  --ink: #f8fbff;
   --accent: #ff7a1f;
   --accent-soft: #ffa45e;
 }
@@ -16,9 +16,9 @@ body {
   font-family: "Inter", sans-serif;
   color: var(--text);
   background:
-    radial-gradient(circle at 12% 8%, rgba(255,122,26,.2), transparent 30%),
-    radial-gradient(circle at 85% 10%, rgba(255,122,26,.14), transparent 28%),
-    linear-gradient(180deg, var(--bg) 0%, #0f0805 100%);
+    radial-gradient(circle at 12% 8%, rgba(255,122,26,.08), transparent 28%),
+    radial-gradient(circle at 85% 10%, rgba(255,122,26,.05), transparent 24%),
+    linear-gradient(180deg, var(--bg) 0%, #090f16 100%);
   background-attachment: fixed;
   overflow-x: hidden;
   overflow-y: auto;
@@ -110,7 +110,7 @@ main {
   align-items: center;
   padding: 1rem 1.2rem;
   border-bottom: 1px solid color-mix(in oklab, var(--line) 75%, var(--accent));
-  background: rgba(20, 11, 7, .86);
+  background: rgba(11, 16, 23, .86);
   backdrop-filter: blur(8px);
 }
 .brand, nav a {
@@ -195,7 +195,7 @@ h2 {
   letter-spacing: .02em;
   line-height: .9;
   text-transform: uppercase;
-  color: var(--ink);
+  color: var(--accent-soft);
   text-shadow:
     0 0 0 transparent,
     0 8px 28px rgba(10, 16, 28, .38);
@@ -228,6 +228,7 @@ h3 {
   margin: 0;
   font-size: clamp(1.12rem, 1.55vw, 1.4rem);
   letter-spacing: .01em;
+  color: var(--accent-soft);
 }
 p, li, a {
   line-height: 1.72;
@@ -245,7 +246,7 @@ ul { padding-left: 1.2rem; }
 .contact-card {
   border: 1px solid var(--line);
   padding: 1rem;
-  background: linear-gradient(180deg, rgba(255,244,234,.03) 0%, rgba(255,122,26,.12) 100%);
+  background: linear-gradient(180deg, rgba(255,255,255,.02) 0%, rgba(16, 28, 40, .08) 100%);
 }
 
 .grid article {
@@ -266,7 +267,7 @@ ul { padding-left: 1.2rem; }
 .project-card:hover {
   border-color: var(--accent-soft);
   transform: translateY(-3px) scale(1.01);
-  background: linear-gradient(180deg, rgba(255,244,234,.06) 0%, rgba(255,122,26,.2) 100%);
+  background: linear-gradient(180deg, rgba(255,255,255,.03) 0%, rgba(255,122,26,.09) 100%);
   box-shadow: 0 14px 34px rgba(8, 10, 15, .52);
 }
 .project-card::after {
@@ -351,12 +352,12 @@ ul { padding-left: 1.2rem; }
 /* Scroll letter reveal for sections below hero */
 .char-reveal {
   opacity: .18;
-  color: color-mix(in oklab, #a65f36 72%, #301b11 28%);
+  color: color-mix(in oklab, #7f90a6 75%, #1a2737 25%);
   transition: opacity .16s linear, color .16s linear;
 }
 .char-reveal.is-visible {
   opacity: 1;
-  color: color-mix(in oklab, var(--ink) 86%, #ffd8ba 14%);
+  color: var(--ink);
 }
 h2 .char-reveal.is-visible,
 h3 .char-reveal.is-visible {
@@ -364,7 +365,7 @@ h3 .char-reveal.is-visible {
 }
 h2 .char-reveal,
 h3 .char-reveal {
-  color: color-mix(in oklab, var(--accent) 52%, #5a3118 48%);
+  color: color-mix(in oklab, var(--accent) 58%, #6a7486 42%);
 }
 
 
@@ -381,4 +382,6 @@ h3 .char-reveal {
   .contact-grid { grid-template-columns: 1fr; }
   .project-head { flex-direction: column; }
 }
+
+
 
