@@ -4,13 +4,26 @@ const loadRing = document.getElementById('loadRing');
 
 const hero = document.getElementById('hero');
 const headlineWrap = document.getElementById('headlineWrap');
-const revealItems = document.querySelectorAll('.reveal');
+const revealItems = Array.from(document.querySelectorAll('.reveal'));
 const projectCards = document.querySelectorAll('.project-card');
+const sections = Array.from(document.querySelectorAll('main section'));
+
+const palette = document.getElementById('commandPalette');
+const commandInput = document.getElementById('commandInput');
+const commandList = document.getElementById('commandList');
+const commandItems = Array.from(document.querySelectorAll('#commandList li'));
+
+const smartCursor = document.getElementById('smartCursor');
+const cursorLabel = document.getElementById('cursorLabel');
 
 const ringLength = 276.46;
-const revealLagMs = 120;
+const revealLagMs = 100;
 let v = 0;
 let letterItems = [];
+let rafId = 0;
+let paletteOpen = false;
+let activeCommandIndex = 0;
+let cursorEnabled = true;
 
 const loaderTimer = setInterval(() => {
   v = Math.min(v + Math.floor(Math.random() * 9) + 4, 100);
@@ -54,7 +67,6 @@ function setHeroLens(clientX, clientY) {
 hero?.addEventListener('pointerenter', () => headlineWrap?.classList.add('active'));
 hero?.addEventListener('pointerleave', () => headlineWrap?.classList.remove('active'));
 hero?.addEventListener('pointermove', (e) => setHeroLens(e.clientX, e.clientY));
-
 hero?.addEventListener('touchstart', (e) => {
   const t = e.touches[0];
   if (!t) return;
@@ -103,7 +115,13 @@ function buildLetterReveal() {
     if (el.closest('.project-link')) return;
     if (el.querySelector('br') || el.children.length > 0) return;
 
-    const sourceText = (el.dataset.baseText || el.textContent || '').trim();
+    if (!el.dataset.baseText) {
+      const initialText = (el.textContent || '').trim();
+      if (!initialText) return;
+      el.dataset.baseText = initialText;
+    }
+
+    const sourceText = el.dataset.baseText;
     if (!sourceText) return;
 
     const frag = document.createDocumentFragment();
@@ -145,11 +163,20 @@ function updateLetterReveal() {
   });
 }
 
-let rafId = 0;
+function updateParallaxLayers() {
+  const y = window.scrollY;
+  sections.forEach((section, idx) => {
+    section.classList.add('depth-layer');
+    const depth = Number(section.dataset.depth || ((idx % 4) * 0.04 + 0.06));
+    section.style.transform = `translate3d(0, ${y * depth * -0.12}px, 0)`;
+  });
+}
+
 function onScrollTick() {
   if (rafId) return;
   rafId = requestAnimationFrame(() => {
     updateLetterReveal();
+    updateParallaxLayers();
     rafId = 0;
   });
 }
@@ -158,8 +185,14 @@ buildLetterReveal();
 window.addEventListener('scroll', onScrollTick, { passive: true });
 window.addEventListener('resize', onScrollTick);
 updateLetterReveal();
+updateParallaxLayers();
 
 if ('IntersectionObserver' in window) {
+  revealItems.forEach((el, idx) => {
+    el.style.transitionDuration = `${0.55 + (idx % 3) * 0.12}s`;
+    el.style.transitionTimingFunction = idx % 2 === 0 ? 'cubic-bezier(.2,.8,.2,1)' : 'cubic-bezier(.16,1,.3,1)';
+  });
+
   const io = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
       if (entry.isIntersecting) entry.target.classList.add('visible');
@@ -169,3 +202,126 @@ if ('IntersectionObserver' in window) {
 } else {
   revealItems.forEach((el) => el.classList.add('visible'));
 }
+
+function openPalette() {
+  if (!palette) return;
+  palette.hidden = false;
+  paletteOpen = true;
+  activeCommandIndex = 0;
+  commandItems.forEach((li, i) => li.classList.toggle('active', i === 0));
+  if (commandInput) {
+    commandInput.value = '';
+    commandInput.focus();
+  }
+}
+
+function closePalette() {
+  if (!palette) return;
+  palette.hidden = true;
+  paletteOpen = false;
+}
+
+function executeCommand(item) {
+  if (!item) return;
+  const target = item.getAttribute('data-target');
+  const url = item.getAttribute('data-url');
+  if (target) {
+    document.querySelector(target)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  } else if (url) {
+    window.open(url, '_blank', 'noopener,noreferrer');
+  }
+  closePalette();
+}
+
+function filterCommands() {
+  const q = (commandInput?.value || '').trim().toLowerCase();
+  let firstVisible = -1;
+  commandItems.forEach((li, idx) => {
+    const show = li.textContent.toLowerCase().includes(q);
+    li.style.display = show ? '' : 'none';
+    if (show && firstVisible === -1) firstVisible = idx;
+    li.classList.remove('active');
+  });
+  activeCommandIndex = firstVisible === -1 ? 0 : firstVisible;
+  commandItems[activeCommandIndex]?.classList.add('active');
+}
+
+commandInput?.addEventListener('input', filterCommands);
+commandItems.forEach((li) => {
+  li.addEventListener('click', () => executeCommand(li));
+});
+
+document.addEventListener('keydown', (e) => {
+  const isK = e.key.toLowerCase() === 'k';
+  if ((e.ctrlKey || e.metaKey) && isK) {
+    e.preventDefault();
+    if (paletteOpen) closePalette(); else openPalette();
+    return;
+  }
+
+  if (!paletteOpen) return;
+
+  if (e.key === 'Escape') {
+    e.preventDefault();
+    closePalette();
+    return;
+  }
+
+  const visible = commandItems.filter((li) => li.style.display !== 'none');
+  if (!visible.length) return;
+
+  if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+    e.preventDefault();
+    const current = visible.indexOf(commandItems[activeCommandIndex]);
+    const delta = e.key === 'ArrowDown' ? 1 : -1;
+    const next = (current + delta + visible.length) % visible.length;
+    commandItems.forEach((li) => li.classList.remove('active'));
+    const nextEl = visible[next];
+    nextEl.classList.add('active');
+    activeCommandIndex = commandItems.indexOf(nextEl);
+  }
+
+  if (e.key === 'Enter') {
+    e.preventDefault();
+    executeCommand(commandItems[activeCommandIndex]);
+  }
+});
+
+palette?.addEventListener('click', (e) => {
+  if (e.target === palette) closePalette();
+});
+
+function setCursorLabel(label, mode = '') {
+  if (!smartCursor || !cursorLabel || !cursorEnabled) return;
+  cursorLabel.textContent = label;
+  smartCursor.classList.remove('is-open', 'is-expand');
+  if (mode) smartCursor.classList.add(mode);
+}
+
+if (window.matchMedia('(pointer:fine)').matches) {
+  document.addEventListener('mousemove', (e) => {
+    if (!smartCursor || !cursorEnabled) return;
+    smartCursor.classList.add('is-visible');
+    smartCursor.style.left = `${e.clientX}px`;
+    smartCursor.style.top = `${e.clientY}px`;
+
+    const target = e.target.closest('[data-cursor], .project-link, .project-card, a');
+    if (!target) {
+      setCursorLabel('');
+      return;
+    }
+
+    const label = target.getAttribute('data-cursor') || (target.matches('.project-card') ? 'Expand' : 'Open');
+    if (label === 'Open') setCursorLabel(label, 'is-open');
+    else if (label === 'Expand') setCursorLabel(label, 'is-expand');
+    else setCursorLabel(label);
+  });
+} else {
+  cursorEnabled = false;
+}
+
+document.addEventListener('mouseleave', () => smartCursor?.classList.remove('is-visible'));
+document.addEventListener('touchstart', () => {
+  cursorEnabled = false;
+  smartCursor?.classList.remove('is-visible');
+}, { passive: true });

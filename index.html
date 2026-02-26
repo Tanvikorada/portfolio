@@ -28,20 +28,42 @@
   <header class="header">
     <a class="brand" href="#top">K.TANVI</a>
     <nav>
-      <a href="#about">About</a>
-      <a href="#projects">Projects</a>
-      <a href="#contact">Contact</a>
+      <a href="#about" data-cursor="Open">About</a>
+      <a href="#projects" data-cursor="Open">Projects</a>
+      <a href="#contact" data-cursor="Open">Contact</a>
     </nav>
   </header>
 
+  <div class="command-palette" id="commandPalette" hidden>
+    <div class="command-panel" role="dialog" aria-modal="true" aria-label="Project Command Palette">
+      <div class="command-head">
+        <span>Command Palette</span>
+        <span class="command-kbd">ESC</span>
+      </div>
+      <input id="commandInput" type="text" placeholder="Jump to section or project..." autocomplete="off" />
+      <ul id="commandList">
+        <li data-target="#about">About</li>
+        <li data-target="#projects">Projects</li>
+        <li data-target="#stack">Tech Stack</li>
+        <li data-target="#contact">Contact</li>
+        <li data-url="https://medfamily-three.vercel.app/">Open MediGarden</li>
+        <li data-url="https://ai-financemanager-wslp.vercel.app">Open Personal Expense Tracker</li>
+        <li data-url="https://web-production-2bb70.up.railway.app/login">Open Helpdesk System</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="smart-cursor" id="smartCursor" aria-hidden="true"><span id="cursorLabel"></span></div>
+
   <main id="top">
-    <section class="hero" id="hero">
+    <section class="hero" id="hero" data-depth="0.2">
       <div class="headline-wrap" id="headlineWrap">
         <h1 class="headline-outline">engineering<br><strong>intelligent</strong><br><strong>full stack</strong><br>systems with<br>ai at the core</h1>
         <h1 class="headline-fill" aria-hidden="true">engineering<br><strong>intelligent</strong><br><strong>full stack</strong><br>systems with<br>ai at the core</h1>
       </div>
       <p class="subhead">Full Stack Developer | AI-Focused Builder | Cloud &amp; Security Learner</p>
       <p class="intro">Based in Chennai, building scalable applications that combine logic, architecture, and intelligence.</p>
+      <p class="manifesto">Build useful systems. Ship clean. Scale responsibly.</p>
 
     </section>
 
@@ -73,9 +95,12 @@
     <section id="projects" class="section reveal">
       <h2 data-vert="WORK">Featured Projects</h2>
 
-      <article class="project-card">
+      <article class="project-card" data-cursor="Expand">
         <div class="project-head">
           <h3>MediGarden - AI Assisted Medical Platform</h3>
+        </div>
+        <div class="stats-chips">
+          <span>Stack: React + Node</span><span>Status: Live</span><span>Deploy: Vercel</span><span>Role: Full Stack + AI</span>
         </div>
         <p>A web platform integrating AI-driven assistance for healthcare-related interactions.</p>
         <div class="project-hidden">
@@ -86,13 +111,16 @@
             <li>Deployment-ready structure</li>
           </ul>
           <p>Focus: Combining user experience with intelligent backend systems.</p>
-          <p><a class="project-link" href="https://medfamily-three.vercel.app/" target="_blank" rel="noreferrer">Open Website</a></p>
+          <p><a class="project-link" href="https://medfamily-three.vercel.app/" target="_blank" rel="noreferrer" data-cursor="Open">Open Website</a></p>
         </div>
       </article>
 
-      <article class="project-card">
+      <article class="project-card" data-cursor="Expand">
         <div class="project-head">
           <h3>Personal Expense Tracker</h3>
+        </div>
+        <div class="stats-chips">
+          <span>Stack: JS + API</span><span>Status: Live</span><span>Deploy: Vercel</span><span>Role: Product Builder</span>
         </div>
         <p>AI-assisted finance management platform for tracking spending, budgets, and expense decisions.</p>
         <div class="project-hidden">
@@ -103,13 +131,16 @@
             <li>Deployment-ready web application</li>
           </ul>
           <p>Focus: Practical personal finance with intelligent assistance.</p>
-          <p><a class="project-link" href="https://ai-financemanager-wslp.vercel.app" target="_blank" rel="noreferrer">View Project</a></p>
+          <p><a class="project-link" href="https://ai-financemanager-wslp.vercel.app" target="_blank" rel="noreferrer" data-cursor="Open">View Project</a></p>
         </div>
       </article>
 
-      <article class="project-card">
+      <article class="project-card" data-cursor="Expand">
         <div class="project-head">
           <h3>Helpdesk Management System (JSP &amp; Servlets)</h3>
+        </div>
+        <div class="stats-chips">
+          <span>Stack: JSP + Servlets</span><span>Status: Live</span><span>Deploy: Railway</span><span>Role: Backend + Debugging</span>
         </div>
         <p>Java web application with authentication, registration, and request handling.</p>
         <div class="project-hidden">
@@ -120,7 +151,7 @@
             <li>Deployment debugging and URL mapping issue fixes</li>
           </ul>
           <p>Focus: Understanding server architecture and deployment behavior.</p>
-          <p><a class="project-link" href="https://web-production-2bb70.up.railway.app/login" target="_blank" rel="noreferrer">Open Website</a></p>
+          <p><a class="project-link" href="https://web-production-2bb70.up.railway.app/login" target="_blank" rel="noreferrer" data-cursor="Open">Open Website</a></p>
         </div>
       </article>
     </section>
@@ -198,22 +229,22 @@
         <article class="contact-card">
           <h3><span class="contact-icon" aria-hidden="true">✉</span> Email</h3>
           <p>For internships, projects, and collaboration.</p>
-          <a href="mailto:tanvikorada@gmail.com">Open</a>
+          <a href="mailto:tanvikorada@gmail.com" data-cursor="Open">Open</a>
         </article>
         <article class="contact-card">
           <h3><span class="contact-icon" aria-hidden="true">⌘</span> GitHub</h3>
           <p>Code repositories and project builds.</p>
-          <a href="https://github.com/Tanvikorada" target="_blank" rel="noreferrer">Open</a>
+          <a href="https://github.com/Tanvikorada" target="_blank" rel="noreferrer" data-cursor="Open">Open</a>
         </article>
         <article class="contact-card">
           <h3><span class="contact-icon" aria-hidden="true">in</span> LinkedIn</h3>
           <p>Professional profile and updates.</p>
-          <a href="https://www.linkedin.com/in/korada-tanvi-b69595350" target="_blank" rel="noreferrer">Open</a>
+          <a href="https://www.linkedin.com/in/korada-tanvi-b69595350" target="_blank" rel="noreferrer" data-cursor="Open">Open</a>
         </article>
         <article class="contact-card">
           <h3><span class="contact-icon" aria-hidden="true">◎</span> Instagram</h3>
           <p>Photography and personal highlights.</p>
-          <a href="https://www.instagram.com/being_tanvi_?igsh=Yzh0OTZzb3o1cnlp" target="_blank" rel="noreferrer">Open</a>
+          <a href="https://www.instagram.com/being_tanvi_?igsh=Yzh0OTZzb3o1cnlp" target="_blank" rel="noreferrer" data-cursor="Open">Open</a>
         </article>
       </div>
     </section>
