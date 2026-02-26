@@ -362,8 +362,37 @@ h3 .char-reveal { color: color-mix(in oklab, var(--accent) 58%, #6a7486 42%); }
 .section.reveal.visible .contact-card:nth-child(4) { transition: .5s ease .26s; }
 
 @media (max-width: 900px) {
+  .hero {
+    min-height: calc(100vh - 60px);
+    align-content: center;
+    padding: 1.4rem 0 2rem;
+    gap: .7rem;
+  }
+  .headline-wrap {
+    --lens-size: 122px;
+  }
+  .headline-outline,
+  .headline-fill {
+    font-size: clamp(3.4rem, 16vw, 6.2rem);
+    line-height: .9;
+  }
+  .subhead {
+    font-size: clamp(.98rem, 4.2vw, 1.15rem);
+  }
+  .intro {
+    font-size: clamp(.92rem, 3.6vw, 1.02rem);
+    max-width: 100%;
+  }
   .grid,
   .contact-grid { grid-template-columns: 1fr; }
   .project-head { flex-direction: column; }
   .smart-cursor { display: none; }
+}
+
+@media (pointer:fine) {
+  html, body,
+  a, button, input,
+  [data-cursor], .project-card, .project-link {
+    cursor: none !important;
+  }
 }

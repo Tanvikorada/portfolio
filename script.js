@@ -78,7 +78,18 @@ hero?.addEventListener('touchmove', (e) => {
   if (!t) return;
   setHeroLens(t.clientX, t.clientY);
 }, { passive: true });
-hero?.addEventListener('touchend', () => headlineWrap?.classList.remove('active'), { passive: true });
+hero?.addEventListener('touchend', () => {
+  if (!window.matchMedia('(pointer:coarse)').matches) {
+    headlineWrap?.classList.remove('active');
+  }
+}, { passive: true });
+
+if (window.matchMedia('(pointer:coarse)').matches && headlineWrap) {
+  headlineWrap.classList.add('active');
+  const rect = headlineWrap.getBoundingClientRect();
+  headlineWrap.style.setProperty('--mx', `${rect.width * 0.5}px`);
+  headlineWrap.style.setProperty('--my', `${rect.height * 0.35}px`);
+}
 
 projectCards.forEach((card) => {
   const hidden = card.querySelector('.project-hidden');
