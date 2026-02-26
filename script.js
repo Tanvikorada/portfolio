@@ -13,8 +13,6 @@ const commandInput = document.getElementById('commandInput');
 const commandList = document.getElementById('commandList');
 const commandItems = Array.from(document.querySelectorAll('#commandList li'));
 
-const smartCursor = document.getElementById('smartCursor');
-const cursorLabel = document.getElementById('cursorLabel');
 
 const ringLength = 276.46;
 const revealLagMs = 100;
@@ -23,7 +21,6 @@ let letterItems = [];
 let rafId = 0;
 let paletteOpen = false;
 let activeCommandIndex = 0;
-let cursorEnabled = true;
 
 const loaderTimer = setInterval(() => {
   v = Math.min(v + Math.floor(Math.random() * 9) + 4, 100);
@@ -301,38 +298,3 @@ document.addEventListener('keydown', (e) => {
 palette?.addEventListener('click', (e) => {
   if (e.target === palette) closePalette();
 });
-
-function setCursorLabel(label, mode = '') {
-  if (!smartCursor || !cursorLabel || !cursorEnabled) return;
-  cursorLabel.textContent = label;
-  smartCursor.classList.remove('is-open', 'is-expand');
-  if (mode) smartCursor.classList.add(mode);
-}
-
-if (window.matchMedia('(pointer:fine)').matches) {
-  document.addEventListener('mousemove', (e) => {
-    if (!smartCursor || !cursorEnabled) return;
-    smartCursor.classList.add('is-visible');
-    smartCursor.style.left = `${e.clientX}px`;
-    smartCursor.style.top = `${e.clientY}px`;
-
-    const target = e.target.closest('[data-cursor], .project-link, .project-card, a');
-    if (!target) {
-      setCursorLabel('');
-      return;
-    }
-
-    const label = target.getAttribute('data-cursor') || (target.matches('.project-card') ? 'Expand' : 'Open');
-    if (label === 'Open') setCursorLabel(label, 'is-open');
-    else if (label === 'Expand') setCursorLabel(label, 'is-expand');
-    else setCursorLabel(label);
-  });
-} else {
-  cursorEnabled = false;
-}
-
-document.addEventListener('mouseleave', () => smartCursor?.classList.remove('is-visible'));
-document.addEventListener('touchstart', () => {
-  cursorEnabled = false;
-  smartCursor?.classList.remove('is-visible');
-}, { passive: true });

@@ -124,29 +124,6 @@ nav { display: flex; gap: 1rem; }
 #commandList li { padding: .65rem .7rem; border-radius: 8px; color: var(--text); cursor: pointer; }
 #commandList li:hover, #commandList li.active { background: rgba(255,122,31,.15); color: var(--ink); }
 
-.smart-cursor {
-  position: fixed;
-  left: 0;
-  top: 0;
-  pointer-events: none;
-  z-index: 130;
-  transform: translate(-50%, -50%);
-  width: 84px;
-  height: 84px;
-  border-radius: 999px;
-  border: 1px solid rgba(255,164,94,.55);
-  background: rgba(11, 16, 23, .22);
-  backdrop-filter: blur(3px);
-  display: grid;
-  place-items: center;
-  opacity: 0;
-  transition: width .2s ease, height .2s ease, opacity .2s ease, background .2s ease;
-}
-.smart-cursor span { font-size: .7rem; letter-spacing: .06em; text-transform: uppercase; color: var(--accent-soft); }
-.smart-cursor.is-visible { opacity: 1; }
-.smart-cursor.is-open { width: 92px; height: 92px; background: rgba(255,122,31,.18); }
-.smart-cursor.is-expand { width: 100px; height: 100px; }
-
 main { width: min(1100px, calc(100% - 2rem)); margin: 0 auto; }
 
 .hero {
@@ -158,7 +135,7 @@ main { width: min(1100px, calc(100% - 2rem)); margin: 0 auto; }
   border-bottom: 1px solid var(--line);
   padding: 2rem 0;
 }
-.headline-wrap { position: relative; --mx: 50%; --my: 50%; --lens-size: 180px; }
+.headline-wrap { position: relative; --mx: 50%; --my: 50%; --lens-size: 110px; }
 .headline-outline, .headline-fill {
   margin: 0;
   font-family: "Syne", sans-serif;
@@ -363,18 +340,18 @@ h3 .char-reveal { color: color-mix(in oklab, var(--accent) 58%, #6a7486 42%); }
 
 @media (max-width: 900px) {
   .hero {
-    min-height: calc(100vh - 60px);
+    min-height: calc(100vh - 56px);
     align-content: center;
-    padding: 1.4rem 0 2rem;
-    gap: .7rem;
+    padding: .8rem 0 1.4rem;
+    gap: .52rem;
   }
   .headline-wrap {
-    --lens-size: 122px;
+    --lens-size: 64px;
   }
   .headline-outline,
   .headline-fill {
-    font-size: clamp(3.4rem, 16vw, 6.2rem);
-    line-height: .9;
+    font-size: clamp(4.6rem, 20vw, 8.4rem);
+    line-height: .78;
   }
   .subhead {
     font-size: clamp(.98rem, 4.2vw, 1.15rem);
@@ -386,13 +363,4 @@ h3 .char-reveal { color: color-mix(in oklab, var(--accent) 58%, #6a7486 42%); }
   .grid,
   .contact-grid { grid-template-columns: 1fr; }
   .project-head { flex-direction: column; }
-  .smart-cursor { display: none; }
-}
-
-@media (pointer:fine) {
-  html, body,
-  a, button, input,
-  [data-cursor], .project-card, .project-link {
-    cursor: none !important;
-  }
 }
