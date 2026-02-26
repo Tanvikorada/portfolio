@@ -18,7 +18,7 @@ const commandItems = Array.from(document.querySelectorAll('#commandList li'));
 
 const ringLength = 276.46;
 const revealLagMs = 100;
-const mobileHeroText = 'engineering intelligent full stack systems with ai at the core';
+const mobileHeroHTML = 'engineering<br><strong>intelligent</strong><br><strong>full</strong><br>stack systems with ai at the core';
 let v = 0;
 let letterItems = [];
 let rafId = 0;
@@ -91,8 +91,8 @@ function syncMobileHeroLayout() {
 
   if (headlineOutline && headlineFill) {
     if (isMobile) {
-      headlineOutline.textContent = mobileHeroText;
-      headlineFill.textContent = mobileHeroText;
+      headlineOutline.innerHTML = mobileHeroHTML;
+      headlineFill.innerHTML = mobileHeroHTML;
     } else {
       headlineOutline.innerHTML = originalOutlineHTML;
       headlineFill.innerHTML = originalFillHTML;
@@ -110,6 +110,12 @@ function syncMobileHeroLayout() {
 
 syncMobileHeroLayout();
 window.addEventListener('resize', syncMobileHeroLayout);
+
+hero?.addEventListener('click', (e) => {
+  if (!window.matchMedia('(pointer:coarse)').matches) return;
+  headlineWrap?.classList.add('active');
+  setHeroLens(e.clientX, e.clientY);
+});
 
 projectCards.forEach((card) => {
   const hidden = card.querySelector('.project-hidden');
