@@ -135,7 +135,7 @@ main { width: min(1100px, calc(100% - 2rem)); margin: 0 auto; }
   border-bottom: 1px solid var(--line);
   padding: 2rem 0;
 }
-.headline-wrap { position: relative; --mx: 50%; --my: 50%; --lens-size: 110px; }
+.headline-wrap { position: relative; --mx: 50%; --my: 50%; --lens-size: 120px; }
 .headline-outline, .headline-fill {
   margin: 0;
   font-family: "Syne", sans-serif;
@@ -342,16 +342,19 @@ h3 .char-reveal { color: color-mix(in oklab, var(--accent) 58%, #6a7486 42%); }
   .hero {
     min-height: calc(100vh - 56px);
     align-content: center;
-    padding: .8rem 0 1.4rem;
-    gap: .52rem;
+    padding: .85rem 0 1.25rem;
+    gap: .5rem;
   }
   .headline-wrap {
-    --lens-size: 64px;
+    --lens-size: 92px;
   }
   .headline-outline,
   .headline-fill {
-    font-size: clamp(4.6rem, 20vw, 8.4rem);
-    line-height: .78;
+    font-size: clamp(2.5rem, 11.2vw, 4.2rem);
+    line-height: .92;
+    letter-spacing: .01em;
+    text-transform: lowercase;
+    overflow-wrap: anywhere;
   }
   .subhead {
     font-size: clamp(.98rem, 4.2vw, 1.15rem);

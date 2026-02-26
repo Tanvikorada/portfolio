@@ -4,6 +4,8 @@ const loadRing = document.getElementById('loadRing');
 
 const hero = document.getElementById('hero');
 const headlineWrap = document.getElementById('headlineWrap');
+const headlineOutline = document.querySelector('.headline-outline');
+const headlineFill = document.querySelector('.headline-fill');
 const revealItems = Array.from(document.querySelectorAll('.reveal'));
 const projectCards = document.querySelectorAll('.project-card');
 const sections = Array.from(document.querySelectorAll('main section'));
@@ -16,11 +18,14 @@ const commandItems = Array.from(document.querySelectorAll('#commandList li'));
 
 const ringLength = 276.46;
 const revealLagMs = 100;
+const mobileHeroText = 'engineering intelligent full stack systems with ai at the core';
 let v = 0;
 let letterItems = [];
 let rafId = 0;
 let paletteOpen = false;
 let activeCommandIndex = 0;
+const originalOutlineHTML = headlineOutline?.innerHTML || '';
+const originalFillHTML = headlineFill?.innerHTML || '';
 
 const loaderTimer = setInterval(() => {
   v = Math.min(v + Math.floor(Math.random() * 9) + 4, 100);
@@ -81,12 +86,30 @@ hero?.addEventListener('touchend', () => {
   }
 }, { passive: true });
 
-if (window.matchMedia('(pointer:coarse)').matches && headlineWrap) {
-  headlineWrap.classList.add('active');
-  const rect = headlineWrap.getBoundingClientRect();
-  headlineWrap.style.setProperty('--mx', `${rect.width * 0.5}px`);
-  headlineWrap.style.setProperty('--my', `${rect.height * 0.35}px`);
+function syncMobileHeroLayout() {
+  const isMobile = window.matchMedia('(max-width: 900px)').matches;
+
+  if (headlineOutline && headlineFill) {
+    if (isMobile) {
+      headlineOutline.textContent = mobileHeroText;
+      headlineFill.textContent = mobileHeroText;
+    } else {
+      headlineOutline.innerHTML = originalOutlineHTML;
+      headlineFill.innerHTML = originalFillHTML;
+    }
+  }
+
+  if (!headlineWrap) return;
+  if (isMobile) {
+    headlineWrap.classList.add('active');
+    const rect = headlineWrap.getBoundingClientRect();
+    headlineWrap.style.setProperty('--mx', `${rect.width * 0.5}px`);
+    headlineWrap.style.setProperty('--my', `${rect.height * 0.5}px`);
+  }
 }
+
+syncMobileHeroLayout();
+window.addEventListener('resize', syncMobileHeroLayout);
 
 projectCards.forEach((card) => {
   const hidden = card.querySelector('.project-hidden');
